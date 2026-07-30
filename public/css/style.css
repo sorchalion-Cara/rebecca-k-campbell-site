@@ -37,18 +37,34 @@ body {
   font-size: 17px;
 }
 
+/* Bold display system, inspired by the huge tight-tracked headline
+   treatment on irmaventer.com — a heavy grotesk (Anton) for real punch,
+   set in caps, contrasted with an italic Fraunces accent word wherever one
+   appears (kept mixed-case and un-boldened, so the two voices play off
+   each other rather than competing). */
+
 h1, h2, h3, h4 {
-  font-family: 'Fraunces', Georgia, serif;
-  font-weight: 700;
+  font-family: 'Anton', 'Fraunces', Georgia, serif;
+  font-weight: 400;
   color: var(--ink);
-  line-height: 1.02;
-  letter-spacing: -0.02em;
+  line-height: 0.98;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
   margin: 0 0 0.45em;
 }
 
-h1 { font-size: clamp(2.6rem, 4vw + 1.5rem, 5.6em); font-weight: 900; letter-spacing: -0.03em; }
-h2 { font-size: clamp(2rem, 2vw + 1.6rem, 3.1em); font-weight: 800; letter-spacing: -0.02em; }
-h3 { font-size: 1.5em; font-weight: 700; }
+h1 { font-size: clamp(2.9rem, 5vw + 1.5rem, 6.4em); }
+h2 { font-size: clamp(2.1rem, 2.6vw + 1.6rem, 3.4em); }
+h3 { font-size: 1.6em; letter-spacing: -0.005em; }
+
+h1 em, h2 em, h3 em, h4 em,
+h1 .accent-word, h2 .accent-word, h3 .accent-word, h4 .accent-word {
+  text-transform: none;
+  font-family: 'Fraunces', Georgia, serif;
+  font-style: italic;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
 
 em, .accent-word {
   font-style: italic;
@@ -80,6 +96,11 @@ p { margin: 0 0 1.2em; }
 
 /* fern watermark, tucked behind the nav — a quiet organic texture,
    sized to actually sit inside the bar instead of being clipped by it */
+@keyframes headerLeafSway {
+  0%, 100% { transform: rotate(-4deg); }
+  50% { transform: rotate(4deg); }
+}
+
 .site-header::after {
   content: '';
   position: absolute;
@@ -87,13 +108,15 @@ p { margin: 0 0 1.2em; }
   right: 6%;
   width: 60px;
   height: 68px;
-  background-image: url('../images/fern-mark-1.png');
+  background-image: url('/images/fernmark1.png');
   background-repeat: no-repeat;
   background-position: top center;
   background-size: contain;
   opacity: 0.32;
   pointer-events: none;
   z-index: 0;
+  transform-origin: top center;
+  animation: headerLeafSway 6s ease-in-out infinite;
 }
 
 .site-header .container {
@@ -188,6 +211,11 @@ nav.main-nav a.active {
 .photo.no-tint::after { content: none; }
 .photo.no-tint img { filter: none; object-fit: contain; background: var(--white); }
 
+/* used for photos that should read as a real, true-colour photograph rather
+   than part of the rust-duotone system — e.g. Rebecca's own author portrait */
+.photo.true-color::after { content: none; }
+.photo.true-color img { filter: none; }
+
 /* ---------- Hero (full-bleed photo) ---------- */
 
 .hero-photo-section {
@@ -214,6 +242,11 @@ nav.main-nav a.active {
 
 /* fern watermark laid over the hero photo itself, top-right, clear of
    the headline which sits bottom-left */
+@keyframes heroMarkDrift {
+  0%, 100% { transform: translateY(0) rotate(-1.5deg); }
+  50% { transform: translateY(14px) rotate(1.5deg); }
+}
+
 .hero-photo-section::after {
   content: '';
   position: absolute;
@@ -221,13 +254,23 @@ nav.main-nav a.active {
   right: 0;
   width: 260px;
   height: 320px;
-  background-image: url('../images/fern-mark-cream.png');
+  background-image: url('/images/fernmarkcream.png');
   background-repeat: no-repeat;
   background-position: top right;
   background-size: contain;
   opacity: 0.3;
   pointer-events: none;
   z-index: 1;
+  transform-origin: top right;
+  animation: heroMarkDrift 10s ease-in-out infinite;
+}
+
+/* on the Vixens page, the hero watermark echoes the book's own riders
+   illustration instead of the fern, tinted moon-pink against the photo */
+.hero-photo-section.riders::after {
+  background-image: url('/images/ridersmarkmoon.png');
+  width: 300px;
+  height: 220px;
 }
 
 .hero-content {
@@ -362,25 +405,46 @@ section.crimson p { color: var(--moon); }
 .section-title.center { text-align: center; margin-left: auto; margin-right: auto; }
 .section-title .eyebrow.center { justify-content: center; }
 
-/* fern watermark behind heading banners that sit on a plain background
-   (no photo of their own) */
+/* watermark behind heading banners that sit on a plain background (no
+   photo of their own) — given a slow, living sway rather than sitting
+   dead still, so the page has some real motion beyond the pulsing mark */
+@keyframes leafSway {
+  0%, 100% { transform: translateX(-50%) rotate(-2deg) scale(1); }
+  50% { transform: translateX(-50%) rotate(2deg) scale(1.02); }
+}
+
 .section-title.center::before {
   content: '';
   position: absolute;
   top: -30px;
   left: 50%;
   transform: translateX(-50%);
+  transform-origin: top center;
   width: 260px;
   height: 380px;
-  background-image: url('../images/fern-mark-1.png');
+  background-image: url('/images/fernmark1.png');
   background-repeat: no-repeat;
   background-position: top center;
   background-size: contain;
   opacity: 0.13;
   pointer-events: none;
   z-index: 0;
+  animation: leafSway 9s ease-in-out infinite;
 }
 .section-title.center > * { position: relative; z-index: 1; }
+
+/* variant watermarks, so different pages read distinctly instead of the
+   same fern repeating everywhere */
+.section-title.center.flip::before {
+  background-image: url('/images/fernmark1flip.png');
+}
+.section-title.center.moonriders::before {
+  background-image: url('/images/ridersmarkmoon.png');
+  width: 400px;
+  height: 260px;
+  top: -6px;
+  opacity: 0.11;
+}
 
 .divider {
   width: 110px;
@@ -395,7 +459,7 @@ section.crimson p { color: var(--moon); }
 /* on the Vixens page, swap the fern watermark behind heading banners for
    the book's own riders illustration, tinted the book's crimson */
 .section-title.center.riders::before {
-  background-image: url('../images/riders-mark-crimson.png');
+  background-image: url('/images/ridersmarkcrimson.png');
   width: 420px;
   height: 280px;
   top: -10px;
@@ -513,6 +577,9 @@ section.crimson p { color: var(--moon); }
 .poem h4 {
   font-family: 'Fraunces', serif;
   font-style: italic;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: normal;
   font-size: 1.25em;
   margin-bottom: 10px;
   color: var(--ink);
@@ -621,12 +688,14 @@ footer::before {
   left: 2%;
   width: 150px;
   height: 240px;
-  background-image: url('../images/fern-mark-cream.png');
+  background-image: url('/images/fernmarkcream.png');
   background-repeat: no-repeat;
   background-size: contain;
   background-position: bottom left;
-  opacity: 0.22;
+  opacity: 0.24;
   pointer-events: none;
+  transform-origin: bottom left;
+  animation: leafSway 11s ease-in-out infinite;
 }
 footer .container { position: relative; z-index: 1; }
 
