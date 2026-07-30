@@ -39,15 +39,16 @@ body {
 
 h1, h2, h3, h4 {
   font-family: 'Fraunces', Georgia, serif;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--ink);
-  line-height: 1.08;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
   margin: 0 0 0.45em;
 }
 
-h1 { font-size: 3.8em; font-weight: 600; letter-spacing: -0.01em; }
-h2 { font-size: 2.4em; }
-h3 { font-size: 1.5em; }
+h1 { font-size: clamp(2.6rem, 4vw + 1.5rem, 5.6em); font-weight: 900; letter-spacing: -0.03em; }
+h2 { font-size: clamp(2rem, 2vw + 1.6rem, 3.1em); font-weight: 800; letter-spacing: -0.02em; }
+h3 { font-size: 1.5em; font-weight: 700; }
 
 em, .accent-word {
   font-style: italic;
@@ -86,7 +87,7 @@ p { margin: 0 0 1.2em; }
   right: 6%;
   width: 60px;
   height: 68px;
-  background-image: url('/images/fernmark1.png');
+  background-image: url('../images/fern-mark-1.png');
   background-repeat: no-repeat;
   background-position: top center;
   background-size: contain;
@@ -220,7 +221,7 @@ nav.main-nav a.active {
   right: 0;
   width: 260px;
   height: 320px;
-  background-image: url('/images/fernmarkcream.png');
+  background-image: url('../images/fern-mark-cream.png');
   background-repeat: no-repeat;
   background-position: top right;
   background-size: contain;
@@ -371,7 +372,7 @@ section.crimson p { color: var(--moon); }
   transform: translateX(-50%);
   width: 260px;
   height: 380px;
-  background-image: url('/images/fernmark1.png');
+  background-image: url('../images/fern-mark-1.png');
   background-repeat: no-repeat;
   background-position: top center;
   background-size: contain;
@@ -394,7 +395,7 @@ section.crimson p { color: var(--moon); }
 /* on the Vixens page, swap the fern watermark behind heading banners for
    the book's own riders illustration, tinted the book's crimson */
 .section-title.center.riders::before {
-  background-image: url('/images/ridersmarkcrimson.png');
+  background-image: url('../images/riders-mark-crimson.png');
   width: 420px;
   height: 280px;
   top: -10px;
@@ -433,6 +434,7 @@ section.crimson p { color: var(--moon); }
   box-shadow: 0 16px 36px rgba(28,19,13,0.2);
 }
 .book-feature .art img { width: 100%; display: block; filter: url(#duotoneRust); }
+.book-feature .art.no-tint img { filter: none; }
 
 .shop-list {
   list-style: none;
@@ -619,7 +621,7 @@ footer::before {
   left: 2%;
   width: 150px;
   height: 240px;
-  background-image: url('/images/fernmarkcream.png');
+  background-image: url('../images/fern-mark-cream.png');
   background-repeat: no-repeat;
   background-size: contain;
   background-position: bottom left;
