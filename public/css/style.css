@@ -1,0 +1,715 @@
+/* Rebecca K Campbell — author site, v2
+   Aesthetic: warm terracotta / rust duotone photography, sun & silhouette
+   motifs, big expressive serif type against clean modern sans. Photos are
+   run through a shared ink -> cream duotone filter, then warmed with a
+   rust gradient scrim, so six different photo shoots read as one system. */
+
+:root {
+  --rust: #b5502e;
+  --rust-deep: #8a3a1f;
+  --ember: #7a2418;
+  --ink: #1c130d;
+  --ink-soft: #4a3a2c;
+  --cream: #f6ead2;
+  --parchment: #f4ecdd;
+  --line: #ddccae;
+  --white: #fffcf6;
+
+  /* the book's actual colourway, lifted from the official cover art:
+     deep blood-red, a vivid magenta glow, and a pale moon-pink */
+  --crimson: #7a0605;
+  --crimson-deep: #4d0303;
+  --magenta: #b3104b;
+  --moon: #f0d6e0;
+
+  --max: 1160px;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--parchment);
+  color: var(--ink);
+  font-family: 'Jost', 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.7;
+  font-size: 17px;
+}
+
+/* Bold display system, inspired by the huge tight-tracked headline
+   treatment on irmaventer.com — a heavy grotesk (Anton) for real punch,
+   set in caps, contrasted with an italic Fraunces accent word wherever one
+   appears (kept mixed-case and un-boldened, so the two voices play off
+   each other rather than competing). */
+
+h1, h2, h3, h4 {
+  font-family: 'Anton', 'Fraunces', Georgia, serif;
+  font-weight: 400;
+  color: var(--ink);
+  line-height: 0.98;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  margin: 0 0 0.45em;
+}
+
+h1 { font-size: clamp(2.9rem, 5vw + 1.5rem, 6.4em); }
+h2 { font-size: clamp(2.1rem, 2.6vw + 1.6rem, 3.4em); }
+h3 { font-size: 1.6em; letter-spacing: -0.005em; }
+
+h1 em, h2 em, h3 em, h4 em,
+h1 .accent-word, h2 .accent-word, h3 .accent-word, h4 .accent-word {
+  text-transform: none;
+  font-family: 'Fraunces', Georgia, serif;
+  font-style: italic;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+em, .accent-word {
+  font-style: italic;
+  font-family: 'Fraunces', Georgia, serif;
+  font-optical-sizing: auto;
+}
+
+a { color: var(--crimson); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+p { margin: 0 0 1.2em; }
+
+.container {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+/* ---------- Header / Nav ---------- */
+
+.site-header {
+  background: var(--parchment);
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  border-bottom: 1px solid var(--line);
+  overflow: hidden;
+}
+
+/* fern watermark, tucked behind the nav — a quiet organic texture,
+   sized to actually sit inside the bar instead of being clipped by it */
+@keyframes headerLeafSway {
+  0%, 100% { transform: rotate(-4deg); }
+  50% { transform: rotate(4deg); }
+}
+
+.site-header::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  right: 6%;
+  width: 60px;
+  height: 68px;
+  background-image: url('/images/fernmark1.png');
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: contain;
+  opacity: 0.32;
+  pointer-events: none;
+  z-index: 0;
+  transform-origin: top center;
+  animation: headerLeafSway 6s ease-in-out infinite;
+}
+
+.site-header .container {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 32px;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Fraunces', serif;
+  font-size: 1.5em;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.brand .mark { width: 22px; height: 22px; color: var(--crimson); }
+.brand em { color: var(--crimson); }
+
+/* ---------- Luminous mark — a slow living pulse, glowing the same
+   moon-pink/magenta as the book's own cover art ---------- */
+
+@keyframes sunPulse {
+  0%, 100% { filter: drop-shadow(0 0 0px rgba(179,16,75,0)); transform: scale(1); }
+  50% { filter: drop-shadow(0 0 8px rgba(179,16,75,0.95)); transform: scale(1.12); }
+}
+
+.mark { animation: sunPulse 3.6s ease-in-out infinite; transform-origin: center; }
+
+nav.main-nav ul {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
+}
+
+nav.main-nav a {
+  color: var(--ink);
+  font-size: 0.85em;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  padding-bottom: 3px;
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+nav.main-nav a:hover,
+nav.main-nav a.active {
+  color: var(--crimson);
+  text-decoration: none;
+  border-bottom-color: var(--magenta);
+}
+
+/* ---------- Photo duotone treatment ---------- */
+
+.photo {
+  position: relative;
+  overflow: hidden;
+  display: block;
+  background: var(--ink);
+}
+
+.photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: url(#duotoneRust);
+}
+
+.photo::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, rgba(181,80,46,0.28), rgba(122,36,24,0.16) 55%, rgba(28,19,13,0.06));
+  mix-blend-mode: color;
+  pointer-events: none;
+}
+
+/* used for scanned/illustrated artwork that should keep its natural colour,
+   e.g. the book's own title-page art, rather than the photo duotone */
+.photo.no-tint::after { content: none; }
+.photo.no-tint img { filter: none; object-fit: contain; background: var(--white); }
+
+/* used for photos that should read as a real, true-colour photograph rather
+   than part of the rust-duotone system — e.g. Rebecca's own author portrait */
+.photo.true-color::after { content: none; }
+.photo.true-color img { filter: none; }
+
+/* ---------- Hero (full-bleed photo) ---------- */
+
+.hero-photo-section {
+  position: relative;
+  color: var(--cream);
+  min-height: 78vh;
+  display: flex;
+  align-items: flex-end;
+}
+
+.hero-photo-section .photo {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.hero-photo-section .photo::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(20,13,9,0.88) 0%, rgba(20,13,9,0.35) 48%, rgba(20,13,9,0.12) 75%);
+  z-index: 1;
+}
+
+/* fern watermark laid over the hero photo itself, top-right, clear of
+   the headline which sits bottom-left */
+@keyframes heroMarkDrift {
+  0%, 100% { transform: translateY(0) rotate(-1.5deg); }
+  50% { transform: translateY(14px) rotate(1.5deg); }
+}
+
+.hero-photo-section::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 260px;
+  height: 320px;
+  background-image: url('/images/fernmarkcream.png');
+  background-repeat: no-repeat;
+  background-position: top right;
+  background-size: contain;
+  opacity: 0.3;
+  pointer-events: none;
+  z-index: 1;
+  transform-origin: top right;
+  animation: heroMarkDrift 10s ease-in-out infinite;
+}
+
+/* on the Vixens page, the hero watermark echoes the book's own riders
+   illustration instead of the fern, tinted moon-pink against the photo */
+.hero-photo-section.riders::after {
+  background-image: url('/images/ridersmarkmoon.png');
+  width: 300px;
+  height: 220px;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 60px 0 64px;
+  width: 100%;
+}
+
+/* ambient, breathing moon-glow behind the hero text block — the
+   "luminous movement" accent, lifted straight from the pink moon on the
+   book's own cover art, echoed by the pulsing mark elsewhere */
+.hero-content .container { position: relative; }
+
+.hero-content .container::before {
+  content: '';
+  position: absolute;
+  top: -70px;
+  left: -60px;
+  width: 380px;
+  height: 380px;
+  background: radial-gradient(circle, rgba(240,214,224,0.7) 0%, rgba(179,16,75,0.30) 45%, rgba(122,6,5,0) 72%);
+  filter: blur(6px);
+  z-index: -1;
+  pointer-events: none;
+  animation: sunBreathe 7s ease-in-out infinite;
+}
+
+@keyframes sunBreathe {
+  0%, 100% { opacity: 0.65; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.18); }
+}
+
+.hero-content .eyebrow { opacity: 1; }
+
+.hero-content h1 {
+  color: var(--white);
+  max-width: 760px;
+  text-shadow: 0 4px 30px rgba(20,13,9,0.45);
+}
+
+.hero-content p.lead {
+  color: var(--cream);
+  max-width: 560px;
+  font-size: 1.12em;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.78em;
+  font-weight: 600;
+  color: var(--white) !important;
+  background: var(--crimson);
+  margin-bottom: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 16px 7px 12px;
+  border-radius: 30px;
+}
+
+.eyebrow .mark { width: 14px; height: 14px; color: var(--white) !important; }
+
+.btn {
+  display: inline-block;
+  padding: 14px 30px;
+  border: 2px solid var(--cream);
+  color: var(--white);
+  font-size: 0.85em;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  border-radius: 2px;
+  margin-top: 8px;
+  margin-right: 12px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s, color 0.2s;
+}
+
+.btn:hover {
+  background: var(--cream);
+  color: var(--ink);
+  text-decoration: none;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(28,19,13,0.25);
+}
+
+.btn.btn-solid {
+  background: var(--crimson);
+  border-color: var(--crimson);
+  color: var(--white);
+  box-shadow: 0 8px 20px rgba(122,6,5,0.4);
+}
+.btn.btn-solid:hover { background: var(--crimson-deep); border-color: var(--crimson-deep); color: var(--white); }
+
+.btn.btn-dark {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+.btn.btn-dark:hover { background: var(--ink); color: var(--cream); }
+
+/* ---------- Sections ---------- */
+
+section { padding: 80px 0; }
+
+section.tight { padding: 48px 0; }
+
+section.alt {
+  background: var(--white);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+section.dark {
+  background: var(--ink);
+  color: var(--cream);
+}
+section.dark h2, section.dark h3 { color: var(--white); }
+
+/* the book's own colourway, as a bold full-colour band — used to feature
+   the official cover art itself rather than the photo-duotone system */
+section.crimson {
+  background: linear-gradient(160deg, var(--crimson) 0%, var(--crimson-deep) 100%);
+  color: var(--moon);
+}
+section.crimson h2, section.crimson h3 { color: var(--white); }
+section.crimson .eyebrow { background: var(--moon); color: var(--crimson-deep) !important; }
+section.crimson .eyebrow .mark { color: var(--crimson-deep) !important; }
+section.crimson p { color: var(--moon); }
+
+.section-title { max-width: 620px; margin-bottom: 44px; position: relative; }
+.section-title.center { text-align: center; margin-left: auto; margin-right: auto; }
+.section-title .eyebrow.center { justify-content: center; }
+
+/* watermark behind heading banners that sit on a plain background (no
+   photo of their own) — given a slow, living sway rather than sitting
+   dead still, so the page has some real motion beyond the pulsing mark */
+@keyframes leafSway {
+  0%, 100% { transform: translateX(-50%) rotate(-2deg) scale(1); }
+  50% { transform: translateX(-50%) rotate(2deg) scale(1.02); }
+}
+
+.section-title.center::before {
+  content: '';
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  transform-origin: top center;
+  width: 260px;
+  height: 380px;
+  background-image: url('/images/fernmark1.png');
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: contain;
+  opacity: 0.13;
+  pointer-events: none;
+  z-index: 0;
+  animation: leafSway 9s ease-in-out infinite;
+}
+.section-title.center > * { position: relative; z-index: 1; }
+
+/* variant watermarks, so different pages read distinctly instead of the
+   same fern repeating everywhere */
+.section-title.center.flip::before {
+  background-image: url('/images/fernmark1flip.png');
+}
+.section-title.center.moonriders::before {
+  background-image: url('/images/ridersmarkmoon.png');
+  width: 400px;
+  height: 260px;
+  top: -6px;
+  opacity: 0.11;
+}
+
+.divider {
+  width: 110px;
+  height: 18px;
+  color: var(--crimson);
+  margin-top: 18px;
+}
+.divider path { stroke-width: 3.4; }
+.divider circle:first-of-type { r: 3.2; }
+.section-title.center .divider { margin-left: auto; margin-right: auto; }
+
+/* on the Vixens page, swap the fern watermark behind heading banners for
+   the book's own riders illustration, tinted the book's crimson */
+.section-title.center.riders::before {
+  background-image: url('/images/ridersmarkcrimson.png');
+  width: 420px;
+  height: 280px;
+  top: -10px;
+  opacity: 0.1;
+}
+
+/* ---------- Split feature (photo + text) ---------- */
+
+.split-feature {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: center;
+}
+
+.split-feature.reverse .photo { order: 2; }
+
+.split-feature .photo {
+  border-radius: 4px;
+  aspect-ratio: 4/5;
+  box-shadow: 0 18px 40px rgba(28,19,13,0.25);
+}
+
+/* ---------- Book feature ---------- */
+
+.book-feature {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 52px;
+  align-items: start;
+}
+
+.book-feature .art {
+  border: 1px solid var(--line);
+  background: var(--white);
+  box-shadow: 0 16px 36px rgba(28,19,13,0.2);
+}
+.book-feature .art img { width: 100%; display: block; filter: url(#duotoneRust); }
+.book-feature .art.no-tint img { filter: none; }
+
+.shop-list {
+  list-style: none;
+  margin: 20px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px 24px;
+}
+
+.shop-list li {
+  border-bottom: 1px dotted var(--line);
+  padding: 9px 0;
+}
+
+.shop-list .tag {
+  display: inline-block;
+  min-width: 100px;
+  color: var(--crimson);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.78em;
+  font-weight: 600;
+}
+
+/* ---------- Numbered cards ---------- */
+
+.numbered-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 34px;
+}
+
+.numbered-card .num {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 1.3em;
+  color: var(--crimson);
+  margin-bottom: 10px;
+  display: block;
+}
+
+.numbered-card h3 { margin-bottom: 8px; }
+.numbered-card p { color: var(--ink-soft); }
+
+/* ---------- Writings / Poems ---------- */
+
+.poem-category { margin-bottom: 56px; }
+
+.poem-category-head {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 28px;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.poem-category-head .photo {
+  aspect-ratio: 1/1;
+  border-radius: 4px;
+  box-shadow: 0 10px 24px rgba(28,19,13,0.2);
+}
+
+.poem-category h3 {
+  margin-bottom: 4px;
+}
+
+.poem {
+  background: var(--white);
+  border: 1px solid var(--line);
+  padding: 24px 28px;
+  margin-bottom: 16px;
+  border-radius: 3px;
+}
+
+.poem h4 {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: normal;
+  font-size: 1.25em;
+  margin-bottom: 10px;
+  color: var(--ink);
+}
+
+.poem .stanza {
+  white-space: pre-line;
+  color: var(--ink-soft);
+}
+
+.placeholder {
+  border: 1px dashed var(--rust);
+  background: #fbf0dd;
+  color: var(--rust-deep);
+  padding: 4px 10px;
+  border-radius: 3px;
+  font-size: 0.8em;
+  font-style: normal;
+  font-family: 'Jost', sans-serif;
+  display: inline-block;
+  margin-top: 8px;
+}
+
+/* ---------- Contact form ---------- */
+
+form.contact-form {
+  max-width: 560px;
+  margin: 0 auto;
+  display: grid;
+  gap: 16px;
+}
+
+form.contact-form label {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.8em;
+  font-weight: 600;
+  color: var(--crimson);
+  display: block;
+  margin-bottom: 6px;
+}
+
+form.contact-form input,
+form.contact-form select,
+form.contact-form textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  background: var(--white);
+  font-family: 'Jost', sans-serif;
+  font-size: 1em;
+  border-radius: 3px;
+  color: var(--ink);
+}
+
+form.contact-form select { cursor: pointer; }
+
+form.contact-form textarea { min-height: 160px; resize: vertical; }
+
+form.contact-form button {
+  justify-self: start;
+  cursor: pointer;
+  background: var(--crimson);
+  color: var(--white);
+  border: 1px solid var(--crimson);
+  padding: 13px 32px;
+  font-size: 0.95em;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 500;
+  border-radius: 2px;
+}
+form.contact-form button:hover { background: var(--crimson-deep); border-color: var(--crimson-deep); }
+
+.setup-note {
+  background: #fbf0dd;
+  border: 1px dashed var(--rust);
+  padding: 18px 22px;
+  border-radius: 4px;
+  margin-bottom: 32px;
+  font-size: 0.92em;
+}
+.setup-note strong { color: var(--rust-deep); }
+
+/* ---------- Footer ---------- */
+
+footer {
+  position: relative;
+  overflow: hidden;
+  background: var(--ink);
+  color: var(--cream);
+  padding: 40px 0;
+  text-align: center;
+  font-size: 0.9em;
+}
+footer a { color: var(--magenta); }
+footer .mark { width: 20px; height: 20px; color: var(--magenta); margin-bottom: 10px; }
+
+/* second fern watermark, echoing the header's, anchored bottom-left —
+   cream-coloured so it actually shows up against the dark footer
+   (an ink-on-ink version here was invisible) */
+footer::before {
+  content: '';
+  position: absolute;
+  bottom: -30px;
+  left: 2%;
+  width: 150px;
+  height: 240px;
+  background-image: url('/images/fernmarkcream.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: bottom left;
+  opacity: 0.24;
+  pointer-events: none;
+  transform-origin: bottom left;
+  animation: leafSway 11s ease-in-out infinite;
+}
+footer .container { position: relative; z-index: 1; }
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 860px) {
+  .split-feature { grid-template-columns: 1fr; }
+  .split-feature.reverse .photo { order: -1; }
+  .book-feature { grid-template-columns: 1fr; }
+  .book-feature .art { max-width: 320px; margin: 0 auto; }
+  .shop-list { grid-template-columns: 1fr; }
+  .poem-category-head { grid-template-columns: 1fr; }
+  .poem-category-head .photo { max-width: 220px; }
+  h1 { font-size: 2.5em; }
+  h2 { font-size: 1.9em; }
+  .hero-photo-section { min-height: 64vh; }
+}
