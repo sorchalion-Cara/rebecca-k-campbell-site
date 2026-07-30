@@ -16,9 +16,10 @@
   --white: #fffcf6;
 
   /* the book's actual colourway, lifted from the official cover art:
-     deep blood-red, a vivid magenta glow, and a pale moon-pink */
-  --crimson: #7a0605;
-  --crimson-deep: #4d0303;
+     a darker, earthier blood-red (pulled back from bright/hot red), a
+     vivid magenta glow, and a pale moon-pink */
+  --crimson: #63120e;
+  --crimson-deep: #380907;
   --magenta: #b3104b;
   --moon: #f0d6e0;
 
@@ -38,24 +39,37 @@ body {
 }
 
 /* Bold display system, inspired by the huge tight-tracked headline
-   treatment on irmaventer.com — a heavy grotesk (Anton) for real punch,
-   set in caps, contrasted with an italic Fraunces accent word wherever one
-   appears (kept mixed-case and un-boldened, so the two voices play off
-   each other rather than competing). */
+   treatment on irmaventer.com — a heavy, distinctive grotesk (Unbounded)
+   for real stand-out punch, set in caps, with a slow-moving colour-graded
+   gradient fill (ink -> crimson -> magenta) so the type itself has life
+   rather than sitting flat. Contrasted with an italic Fraunces accent
+   word wherever one appears, carrying its own two-tone gradient so the
+   two voices still read as separate instruments. */
+
+@keyframes inkFlow {
+  0%, 100% { background-position: 0% center; }
+  50% { background-position: 100% center; }
+}
 
 h1, h2, h3, h4 {
-  font-family: 'Anton', 'Fraunces', Georgia, serif;
-  font-weight: 400;
-  color: var(--ink);
-  line-height: 0.98;
+  font-family: 'Unbounded', 'Fraunces', Georgia, serif;
+  font-weight: 800;
+  line-height: 1.04;
   letter-spacing: -0.01em;
   text-transform: uppercase;
   margin: 0 0 0.45em;
+  background-image: linear-gradient(100deg, var(--ink) 0%, var(--crimson) 45%, var(--magenta) 75%, var(--ink) 100%);
+  background-size: 260% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: inkFlow 14s ease-in-out infinite;
 }
 
-h1 { font-size: clamp(2.9rem, 5vw + 1.5rem, 6.4em); }
-h2 { font-size: clamp(2.1rem, 2.6vw + 1.6rem, 3.4em); }
-h3 { font-size: 1.6em; letter-spacing: -0.005em; }
+h1 { font-size: clamp(2.6rem, 4.2vw + 1.4rem, 5.6em); }
+h2 { font-size: clamp(1.9rem, 2.2vw + 1.5rem, 3em); }
+h3 { font-size: 1.4em; letter-spacing: -0.005em; }
 
 h1 em, h2 em, h3 em, h4 em,
 h1 .accent-word, h2 .accent-word, h3 .accent-word, h4 .accent-word {
@@ -64,6 +78,26 @@ h1 .accent-word, h2 .accent-word, h3 .accent-word, h4 .accent-word {
   font-style: italic;
   font-weight: 600;
   letter-spacing: -0.01em;
+  background-image: linear-gradient(100deg, var(--crimson) 0%, var(--magenta) 55%, var(--crimson) 100%);
+  background-size: 220% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: inkFlow 14s ease-in-out infinite;
+}
+
+/* on dark or full-photo backgrounds, the ink-based gradient would vanish —
+   swap to a moon/cream/magenta gradient that reads against dark instead */
+.hero-content h1,
+section.dark h2, section.dark h3, section.dark h4,
+section.crimson h2, section.crimson h3, section.crimson h4 {
+  background-image: linear-gradient(100deg, var(--white) 0%, var(--moon) 40%, var(--magenta) 75%, var(--white) 100%);
+}
+.hero-content h1 em,
+section.dark h2 em, section.dark h3 em,
+section.crimson h2 em, section.crimson h3 em {
+  background-image: linear-gradient(100deg, var(--moon) 0%, var(--magenta) 55%, var(--moon) 100%);
 }
 
 em, .accent-word {
@@ -143,15 +177,29 @@ p { margin: 0 0 1.2em; }
 .brand .mark { width: 22px; height: 22px; color: var(--crimson); }
 .brand em { color: var(--crimson); }
 
-/* ---------- Luminous mark — a slow living pulse, glowing the same
-   moon-pink/magenta as the book's own cover art ---------- */
+/* ---------- Brand mark — a curled bush-plant bud, not a sun, rendered
+   as a masked silhouette so it tints via currentColor exactly like the
+   old inline SVG did, with the same slow living pulse-glow ---------- */
 
 @keyframes sunPulse {
   0%, 100% { filter: drop-shadow(0 0 0px rgba(179,16,75,0)); transform: scale(1); }
   50% { filter: drop-shadow(0 0 8px rgba(179,16,75,0.95)); transform: scale(1.12); }
 }
 
-.mark { animation: sunPulse 3.6s ease-in-out infinite; transform-origin: center; }
+.mark {
+  display: inline-block;
+  background-color: currentColor;
+  -webkit-mask-image: url('/images/markiconink.png');
+  mask-image: url('/images/markiconink.png');
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  animation: sunPulse 3.6s ease-in-out infinite;
+  transform-origin: center;
+}
 
 nav.main-nav ul {
   list-style: none;
@@ -216,6 +264,61 @@ nav.main-nav a.active {
 .photo.true-color::after { content: none; }
 .photo.true-color img { filter: none; }
 
+/* a plain framed image — no letterboxing, no forced crop, the picture
+   just sits at its own natural aspect ratio with a soft frame around it.
+   used for the book cover shown "in its true colours" */
+.cover-frame {
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 20px 44px rgba(0,0,0,0.4);
+}
+.cover-frame img { width: 100%; display: block; }
+
+/* ---------- Horizontal river-line watermarks ---------- */
+/* an original wavy-line motif (not a reused external asset), echoing the
+   Cara & Co "river lines" feel — a few soft, drifting horizontal strokes
+   laid behind a section so a plain block of colour never reads as empty.
+   Two colourways: a warm rust/crimson set for lighter backgrounds, and a
+   paler cream/moon set for darker ones. */
+
+.river-lines {
+  position: relative;
+  overflow: hidden;
+}
+
+.river-lines::before {
+  content: '';
+  position: absolute;
+  inset: -10% 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 320' preserveAspectRatio='none'%3E%3Cpath d='M0,70 C150,130 300,10 450,80 C600,150 750,30 900,90 C1000,130 1100,50 1200,90' fill='none' stroke='%2363120e' stroke-width='2.2' opacity='0.28'/%3E%3Cpath d='M0,150 C150,210 300,100 450,170 C600,230 750,120 900,180 C1000,210 1100,140 1200,170' fill='none' stroke='%23b3104b' stroke-width='2' opacity='0.2'/%3E%3Cpath d='M0,230 C150,270 300,190 450,250 C600,285 750,205 900,255 C1000,275 1100,225 1200,250' fill='none' stroke='%23ddccae' stroke-width='1.6' opacity='0.35'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-size: 1200px 320px;
+  background-position: center;
+  pointer-events: none;
+  z-index: 0;
+  animation: riverDrift 26s linear infinite;
+}
+
+@keyframes riverDrift {
+  0% { background-position: 0 center; }
+  100% { background-position: -1200px center; }
+}
+
+.river-lines > .container { position: relative; z-index: 1; }
+
+/* paler colourway for use on dark or crimson backgrounds */
+.river-lines.on-dark::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 320' preserveAspectRatio='none'%3E%3Cpath d='M0,70 C150,130 300,10 450,80 C600,150 750,30 900,90 C1000,130 1100,50 1200,90' fill='none' stroke='%23f0d6e0' stroke-width='2.2' opacity='0.22'/%3E%3Cpath d='M0,150 C150,210 300,100 450,170 C600,230 750,120 900,180 C1000,210 1100,140 1200,170' fill='none' stroke='%23f6ead2' stroke-width='2' opacity='0.16'/%3E%3Cpath d='M0,230 C150,270 300,190 450,250 C600,285 750,205 900,255 C1000,275 1100,225 1200,250' fill='none' stroke='%23b3104b' stroke-width='1.6' opacity='0.3'/%3E%3C/svg%3E");
+}
+
+/* a single, bolder band version — one wide sweep of lines running the
+   full width of a banner, rather than a small tiled texture, for
+   sections that need a stronger presence */
+.river-band::before {
+  background-size: 1600px 320px;
+  opacity: 0.9;
+}
+
 /* ---------- Hero (full-bleed photo) ---------- */
 
 .hero-photo-section {
@@ -240,8 +343,9 @@ nav.main-nav a.active {
   z-index: 1;
 }
 
-/* fern watermark laid over the hero photo itself, top-right, clear of
-   the headline which sits bottom-left */
+/* vine watermark, growing up out of the bottom-left edge of the hero
+   photo itself, as if rooted in the margin of the page — replaces the
+   earlier floating fern, which read as out of place */
 @keyframes heroMarkDrift {
   0%, 100% { transform: translateY(0) rotate(-1.5deg); }
   50% { transform: translateY(14px) rotate(1.5deg); }
@@ -250,27 +354,35 @@ nav.main-nav a.active {
 .hero-photo-section::after {
   content: '';
   position: absolute;
-  top: 0;
-  right: 0;
-  width: 260px;
-  height: 320px;
-  background-image: url('/images/fernmarkcream.png');
+  bottom: 0;
+  left: 0;
+  width: 240px;
+  height: 480px;
+  background-image: url('/images/vinemarkfaderight.png');
   background-repeat: no-repeat;
-  background-position: top right;
+  background-position: left bottom;
   background-size: contain;
-  opacity: 0.3;
+  opacity: 0.55;
   pointer-events: none;
   z-index: 1;
-  transform-origin: top right;
-  animation: heroMarkDrift 10s ease-in-out infinite;
+  transform-origin: bottom left;
+  animation: heroMarkDrift 12s ease-in-out infinite;
 }
 
-/* on the Vixens page, the hero watermark echoes the book's own riders
-   illustration instead of the fern, tinted moon-pink against the photo */
+/* on the Vixens page, the hero carries the book's own riders illustration
+   instead of the vine — anchored in the bottom corner (not the top),
+   with no background block behind it, just the bare silhouette */
 .hero-photo-section.riders::after {
+  top: auto;
+  bottom: 0;
+  left: auto;
+  right: 0;
+  width: 340px;
+  height: 240px;
   background-image: url('/images/ridersmarkmoon.png');
-  width: 300px;
-  height: 220px;
+  background-position: bottom right;
+  opacity: 0.24;
+  transform-origin: bottom right;
 }
 
 .hero-content {
@@ -712,4 +824,6 @@ footer .container { position: relative; z-index: 1; }
   h1 { font-size: 2.5em; }
   h2 { font-size: 1.9em; }
   .hero-photo-section { min-height: 64vh; }
+  .hero-photo-section::after { width: 140px; height: 300px; opacity: 0.4; }
+  .hero-photo-section.riders::after { width: 220px; height: 160px; }
 }
