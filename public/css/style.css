@@ -102,6 +102,50 @@ p { margin: 0 0 1.2em; }
 
 .mesh.quiet { opacity: 0.55; }
 
+/* ---------- Botanical line-art accents ---------- */
+/* faint digital-illustration sprigs, tucked into a corner of otherwise
+   plain sections — suggestive rather than decorative, just enough to
+   keep flat backgrounds from reading as dead space */
+
+.accent { position: relative; overflow: hidden; }
+.accent > .container { position: relative; z-index: 1; }
+
+.accent::before {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  opacity: 0.16;
+}
+
+.accent-fern::before {
+  left: -30px;
+  bottom: -30px;
+  width: 300px;
+  height: 380px;
+  background-position: left bottom;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 400'%3E%3Cpath d='M150,390 C140,300 160,220 150,140 C145,80 155,40 150,10' fill='none' stroke='%23f3d98c' stroke-width='2'/%3E%3Cpath d='M150,350 C120,340 100,320 90,300' fill='none' stroke='%23f3d98c' stroke-width='1.6'/%3E%3Cpath d='M150,320 C180,310 200,290 210,270' fill='none' stroke='%23f3d98c' stroke-width='1.6'/%3E%3Cpath d='M150,270 C120,262 100,245 92,228' fill='none' stroke='%23f3d98c' stroke-width='1.6'/%3E%3Cpath d='M150,240 C180,232 198,215 208,198' fill='none' stroke='%23f3d98c' stroke-width='1.6'/%3E%3Cpath d='M150,190 C126,182 112,168 104,152' fill='none' stroke='%23f3d98c' stroke-width='1.4'/%3E%3Cpath d='M150,160 C174,152 188,138 196,122' fill='none' stroke='%23f3d98c' stroke-width='1.4'/%3E%3C/svg%3E");
+}
+
+.accent-twig::before {
+  right: -20px;
+  top: -20px;
+  width: 220px;
+  height: 290px;
+  background-position: right top;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 260 340'%3E%3Cpath d='M40,320 C70,260 90,200 110,150 C130,100 150,60 190,20' fill='none' stroke='%23f3d98c' stroke-width='2'/%3E%3Ccircle cx='120' cy='140' r='5' fill='%23f3d98c'/%3E%3Ccircle cx='140' cy='108' r='5' fill='%23f3d98c'/%3E%3Ccircle cx='160' cy='78' r='5' fill='%23f3d98c'/%3E%3Ccircle cx='178' cy='50' r='5' fill='%23f3d98c'/%3E%3C/svg%3E");
+}
+
+.accent-tendril::before {
+  right: -30px;
+  bottom: -30px;
+  width: 260px;
+  height: 330px;
+  background-position: right bottom;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 380'%3E%3Cpath d='M40,20 C120,40 60,140 140,160 C220,180 160,280 240,300 C280,310 270,340 260,360' fill='none' stroke='%23f3d98c' stroke-width='2'/%3E%3C/svg%3E");
+}
+
 /* laid over a hero photo, the mesh sits above the dark scrim and blends
    into the image itself rather than floating as a separate layer */
 .hero-photo-section .mesh { z-index: 1; mix-blend-mode: screen; opacity: 0.85; }
@@ -468,11 +512,13 @@ section.dark p, section.crimson p { color: var(--ink-dim); }
 }
 
 .numbered-card .num {
-  font-family: 'Instrument Serif', serif;
-  font-style: italic;
-  font-size: 1.3em;
   color: var(--gold);
-  margin-bottom: 10px;
+  margin-bottom: 12px;
+  display: block;
+}
+.numbered-card .num svg {
+  width: 30px;
+  height: 36px;
   display: block;
 }
 
