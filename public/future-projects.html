@@ -55,8 +55,9 @@
 
 <section class="accent accent-twig">
   <div class="mesh quiet"></div>
+  <div class="leaf-watermark left small"></div>
   <div class="container">
-    <div class="numbered-grid" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr));max-width:520px;margin:0 auto;">
+    <div class="numbered-grid reveal" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr));max-width:520px;margin:0 auto;">
       <div class="numbered-card">
         <span class="num"><svg viewBox="0 0 40 50" fill="none" stroke="currentColor" stroke-width="2"><path d="M8,48 C12,38 15,28 18,22 C21,16 24,10 30,3"/><circle cx="19" cy="20" r="1.8" fill="currentColor" stroke="none"/><circle cx="23" cy="14" r="1.8" fill="currentColor" stroke="none"/><circle cx="27" cy="8" r="1.8" fill="currentColor" stroke="none"/></svg></span>
         <h3>A New Science-Fiction Novel</h3>
@@ -86,6 +87,18 @@
     <p>&copy; <span id="year"></span> Rebecca K Campbell &nbsp;&middot;&nbsp; <a href="contact.html">Contact Me</a></p>
   </div>
 </footer>
-<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+if ('IntersectionObserver' in window) {
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) { entry.target.classList.add('is-visible'); io.unobserve(entry.target); }
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+} else {
+  document.querySelectorAll('.reveal').forEach((el) => el.classList.add('is-visible'));
+}
+</script>
 </body>
 </html>

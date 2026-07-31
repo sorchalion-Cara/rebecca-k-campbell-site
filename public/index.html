@@ -67,7 +67,7 @@
     <a class="photo true-color" href="vixens.html" style="aspect-ratio:4/5;display:block;">
       <img src="/images/rebeccabio.jpg" alt="Rebecca K Campbell hiking the Steenberg Plateau, Table Mountain National Park">
     </a>
-    <div>
+    <div class="reveal">
       <div class="eyebrow"><span class="mark"></span>About Rebecca</div>
       <h2>Writer of <em>ancient</em> worlds &amp; present-day verse</h2>
       <p>
@@ -108,11 +108,12 @@
 
 <section class="dark">
   <div class="mesh"></div>
+  <div class="leaf-watermark right"></div>
   <div class="container split-feature reverse">
     <div class="cover-frame">
       <img src="/images/vixenscovertitled.jpg" alt="The Lay of the Vixens: A Song of Ancient Amazons, book cover, three mounted archers riding beneath a rising moon">
     </div>
-    <div>
+    <div class="reveal">
       <div class="eyebrow"><span class="mark"></span>Debut Novel</div>
       <h2>The Lay of the <em>Vixens</em></h2>
       <p style="font-style:italic;">A Song of Ancient Amazons</p>
@@ -132,8 +133,9 @@
 
 <section>
   <div class="mesh quiet"></div>
+  <div class="leaf-watermark left small"></div>
   <div class="container">
-    <div class="section-title center">
+    <div class="section-title center reveal">
       <div class="eyebrow center"><span class="mark"></span>Explore</div>
       <h2>More from Rebecca</h2>
       <svg class="divider" viewBox="0 0 400 40" style="margin-left:auto;margin-right:auto;"><path d="M4,20 C60,12 90,28 150,18 C210,8 260,26 340,16 C365,12 380,18 396,14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><circle cx="396" cy="14" r="2.6" fill="currentColor"/><circle cx="386" cy="17" r="1.4" fill="currentColor"/><circle cx="8" cy="21" r="1.6" fill="currentColor"/></svg>
@@ -167,6 +169,18 @@
     <p>&copy; <span id="year"></span> Rebecca K Campbell &nbsp;&middot;&nbsp; <a href="contact.html">Contact Me</a></p>
   </div>
 </footer>
-<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+if ('IntersectionObserver' in window) {
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) { entry.target.classList.add('is-visible'); io.unobserve(entry.target); }
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+} else {
+  document.querySelectorAll('.reveal').forEach((el) => el.classList.add('is-visible'));
+}
+</script>
 </body>
 </html>

@@ -55,7 +55,8 @@
 
 <section class="accent accent-tendril">
   <div class="mesh quiet"></div>
-  <div class="container">
+  <div class="leaf-watermark left small"></div>
+  <div class="container reveal">
     <div class="setup-note" style="max-width:560px;margin-left:auto;margin-right:auto;">
       <strong>Setup note for Rebecca (remove once done):</strong> this form is wired for
       <a href="https://formspree.io" target="_blank" rel="noopener">Formspree</a>. Sign up free
@@ -109,6 +110,18 @@
     <p>&copy; <span id="year"></span> Rebecca K Campbell &nbsp;&middot;&nbsp; <a href="contact.html">Contact Me</a></p>
   </div>
 </footer>
-<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+if ('IntersectionObserver' in window) {
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) { entry.target.classList.add('is-visible'); io.unobserve(entry.target); }
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+} else {
+  document.querySelectorAll('.reveal').forEach((el) => el.classList.add('is-visible'));
+}
+</script>
 </body>
 </html>
